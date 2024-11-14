@@ -1,4 +1,4 @@
-# yt-ad-autoskipper
+<h2><img align="center" height="40" src="logo.svg"> yt-ad-autoskipper</h2>
 
 A browser extension that automates skipping and muting ad on YouTube. This is not an ad blocker, it just automates the process of clicking on the "Skip Ad" button on YouTube.
 
