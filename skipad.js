@@ -23,7 +23,7 @@
       .map(name => {
         return Array.from(document.getElementsByClassName(name)) || [];
       })
-      .reduce(function(acc, elems) {
+      .reduce(function (acc, elems) {
         return acc.concat(elems);
       }, [])
   }
@@ -55,7 +55,7 @@
 
     // Find the actual parent with the display style 'none' so that we can
     // listen to that element's changes.
-    var parentWithDisplayStyle = (function() {
+    var parentWithDisplayStyle = (function () {
       var currentParent = button;
       while (currentParent !== null) {
         if (currentParent.style.display === 'none') {
@@ -83,7 +83,7 @@
     // If this is the first skip button we have encountered, we will have to
     // set up the observer first.
     if (!skipBtnObserver) {
-      skipBtnObserver = new MutationObserver(function() {
+      skipBtnObserver = new MutationObserver(function () {
         if (!isBtnVisible(observedSkipBtn)) {
           return;
         }
@@ -104,7 +104,7 @@
     skipBtnObserver.observe(parentWithDisplayStyle, { attributes: true });
   }
 
-  function muteIfAd () {
+  function muteIfAd() {
     let color = window.getComputedStyle(document.querySelector('.ytp-play-progress')).backgroundColor
     document.querySelector('video').muted = color === "rgb(255, 204, 0)";
   }
@@ -145,9 +145,8 @@
     if (typeof el.fireEvent === 'function') {
       el.fireEvent('on' + etype);
     } else if (typeof el.dispatchEvent === 'function') {
-      var evObj = document.createEvent('Events');
-      evObj.initEvent(etype, true, false);
-      el.dispatchEvent(evObj);
+      const evt = new Event(etype, {bubbles : true});
+      el.dispatchEvent(evt);
     }
   }
 
@@ -163,7 +162,7 @@
       return false;
     }
 
-    var ytdPlayer = (function(nodeList) {
+    var ytdPlayer = (function (nodeList) {
       return nodeList && nodeList[0];
     })(document.getElementsByTagName('ytd-player'));
 
@@ -171,7 +170,7 @@
       return false;
     }
 
-    var observer = new MutationObserver(function() {
+    var observer = new MutationObserver(function () {
       checkAndClickButtons();
     });
 
@@ -205,7 +204,7 @@
      * Starts the poll to see if any of the ad buttons are present in the page now.
      * The interval of 2 seconds is arbitrary. I believe it is a good compromise.
      */
-    timeoutId = setTimeout(function() {
+    timeoutId = setTimeout(function () {
       checkAndClickButtons();
 
       initTimeout();
@@ -217,21 +216,22 @@
    * window is the same as the top parent window. The try..catch is there because
    * some browsers will not let a script in an iframe access the parent window.
    */
-  var inIframe = (function() {
+  function isInIframe() {
     try {
       return window.self !== window.top;
-    } catch (e) {
+    }
+    catch (e) {
       // The browser did not let us access the parent window. Which also means we
       // are in an iframe.
       return true;
     }
-  })();
+  }
 
   /**
    * Only start the script if we are at the top level. YouTube has a few iframes
    * in the page which would also be running this content script.
    */
-  if (!inIframe) {
+  if (!isInIframe()) {
     // main:
     initTimeout();
   }

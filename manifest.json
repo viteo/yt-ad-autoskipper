@@ -1,17 +1,24 @@
 {
-  "name":"YouTube Ad Auto-skipper & Auto-mute",
-  "short_name": "YT Ad Auto-skipper-mute",
-  "description":"YouTube Ad Skipper is an extension that mute all ads and auto skips ads after YouTube provides a skip ad button. It does not block an ad.",
-  "manifest_version": 2,
-  "version":"0.5.0",
-  "author":"Izan Pérez Cosano",
+  "name": "YouTube Ad Auto-skipper & Auto-mute",
+  "short_name": "YT Ad Skipper",
+  "description": "YouTube Ad Skipper is an extension that mute all ads and auto skips ads after YouTube provides a skip ad button. It does not block an ad.",
+  "manifest_version": 3,
+  "version": "0.6.0",
+  "author": "Shreya Dahal, Izan Pérez Cosano, viteo sen",
   "homepage_url": "https://github.com/eperezcosano/yt-ad-autoskipper",
-  "content_scripts":[
+  "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*"],
-      "js":["skipad.js"],
+      "matches": [ "*://*.youtube.com/*" ],
+      "js": [ "./skipad.js" ],
       "run_at": "document_end",
       "all_frames": true
+    },
+    {
+      "matches": [ "*://*.youtube.com/*" ],
+      "js": [ "./youtube_override.js" ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
     }
   ],
   "icons": {
